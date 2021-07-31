@@ -1,5 +1,5 @@
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/IncidentApp_/'
+    ? '/https://github.com/olioni/IncidentApp_.git/'
     : '/'
 }
