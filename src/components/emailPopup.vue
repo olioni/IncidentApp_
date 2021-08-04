@@ -5,6 +5,9 @@
             </div>
             <form class="contact-form">
                 <div v-if="confirming" class="inputsWrap">
+                    <div class="warning" v-if="warning">
+                        <h2>PLEASE ENTER ALL DETAILS INTO THE FORM</h2>
+                    </div>
                     <div class="inputContainer">
                         <h2 class="inputHeader">STUDENT NAME</h2>
                         <input type="email" v-model="emailBody.student_name">
@@ -17,7 +20,7 @@
                         </div>
                         <div>
                         <h2 class="inputHeader">PARENT EMAIL ADDRESS</h2>
-                        <input type="email" v-model="emailBody.parent_email">
+                        <input type="email" v-model="emailBody.parent_email" :class="[isEmailValid()]">
                         </div>
                     </div>
                     
@@ -28,25 +31,16 @@
                         </div>
                         <div>
                         <h2 class="inputHeader">TEACHER EMAIL ADDRESS</h2>
-                        <input type="email" v-model="emailBody.teacher_email">
+                        <input type="email" v-model="emailBody.teacher_email" :class="[isEmailValid()]">
                         </div>
                     </div>
 
 
                 </div>
                 <div v-if="confirming" class="buttonWrap">
-                    <input class="confirmButton" type="submit" value="submit" @click="confirmEmails(), rng(), sendEmail()" :style="{textTransform: toUpperCase}">
+                    <input class="confirmButton" type="submit" value="submit" @click="confirmEmails(), rng(), sendEmail()" :style="{textTransform: toUpperCase}" :disabled="disabled">
                 </div>
             </form>
-              <!-- <form class="contact-form" @submit.prevent="sendEmail">
-                <label>Name</label>
-                <input type="text" name="user_name">
-                <label>Email</label>
-                <input type="email" name="user_email">
-                <label>Message</label>
-                <textarea name="message"></textarea>
-                <input type="submit" value="Send">
-            </form> -->
     </div>
 </template>
 
@@ -77,23 +71,33 @@ export default ({
                 response: this.responsesFromApp
             },
 
-            toUpperCase: 'uppercase'
+            toUpperCase: 'uppercase',
+            warning: false,
+            disabled: true,
+
+            reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+            btnColor: 'white'
         }
     },
     methods: {
+        // Change displays from email with inputs to thank you page
         confirmEmails() {
             this.confirming = false
             this.confirmed = true
         },
+        // Set the background colour in the beginning of loading the page
         rng() {
             this.bgClr = '#5bc7ac'
         },
+        // Upon hovering the thank you text, change the text
         hover() {
             this.tyText = '✨ Thank you for your input ✨'
         },
+        // Upon unhovering over the text change the text back to what it was prior
         unhover() {
             this.tyText = 'Thank you for your input 👍'
         },
+        // Once inputs are filled send emails to users via emailjs, sends email to student and teacher
         sendEmail() {
             console.log('sending email')
             console.log(this.emailBody)
@@ -109,7 +113,11 @@ export default ({
                 }, (error) => {
                     console.log('FAILED...', error);
                 });
-            }
+        },
+        isEmailValid() {
+            return (this.emailBody.parent_email == '' && this.emailBody.teacher_email == '') ? '' : (this.reg.test(this.emailBody.parent_email) && this.reg.test(this.emailBody.teacher_email)) ? this.disabled = false : this.disabled = true ;
+        },
+
     }
 })
 </script>

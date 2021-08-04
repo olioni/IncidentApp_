@@ -16,6 +16,7 @@ export default {
         }
     },
     methods: {
+        // On start button click, emit to App.vue and switch to surveyPopup
         beginApp() {
             this.$emit('showApp')
         }

@@ -39,22 +39,6 @@ export default {
     return {
       qObj: {q1: 'What happened?', q2: 'What did you want to happen?\r\nOR Think was going to happen?', q3: 'Who has been affected or hurt?', q4: 'How?', q5: 'What needs to happen to fix things up?', q6: 'Next time?'},
       qResponses: {q1: ['Pushed', 'Hit', 'Kicked', 'Took Something', 'Bad/Nasty Words', 'Spat', 'Ignored', 'Upset Someone', 'Ran Away', 'Broke', 'Scratched', 'Made a Mess'], q2:['Angry', 'Go Away', 'Frustrated', "Don't Like/Don't Want To", 'Confused', 'Want To Play', 'Worried', 'Want To Go Home', 'Stop', 'Need Help', 'Not Fair'], q3: ['Student/Child', 'Teacher', 'School Helper', 'Teacher Aide', 'Whole Class', 'Grandparents', 'Bus Driver', 'Mum/Dad', 'Principal/DP'], q4: ['Hurt Head/Face', 'Hurt Arm', 'Hurt Leg', 'Broke Something', 'Made a Mess', 'Hurt Ears', 'Made Someone Scared', 'Made Someone Cry', 'Made Someone Embarassed', 'Made Someone Worried', "Hurt Someone's Feelings", 'Made Someone Sad'], q5: ['Give/Give Back', 'Say Something Nice', 'Check If Ok', 'Fix', 'Offer To', 'Help', 'Clean Up', 'Say I Will',]},
-      // qResponses: {
-      //   q1: {
-      //     Pushed: false, 
-      //     Hit: false, 
-      //     Kicked: false, 
-      //     TookSomething: false, 
-      //     Bad_NastyWords: false, 
-      //     Spat: false, 
-      //     ignored: false, 
-      //     upsetSomeone: false, 
-      //     ranAway: false, 
-      //     Broke: false, 
-      //     Scratched: false, 
-      //     madeAMess: false
-      //     }
-      //   },
       qIndex: 'q1',
       qEmoji: {q1: ['✋', '🤛', '🦵', '🐱‍👤', '🤬', '💧', '🤐', '😠', '🏃‍♂️', '👋', '🤕', '🗑'], q2: ['😡', '🚶‍♂️', '😣', '🙄', '😟', '😢', '😧', '🙁', '🛑', '🙋‍♂️', '😔'], q3: ['👦', '👩‍🏫', '👨‍💼', '🙍‍♀️', '👥', '👴', '🚌', '👪', '👨‍💼'], q4: ['🤕', '💪', '🦵', '👋', '🗑', '👂', '😰', '😭', '😖', '😞', '😟', '😢'], q5: ['🤲', '🗨', '🤔', '🛠', '🤗', '👏', '💬', '🙏']},
       selectedResponses: {
@@ -78,24 +62,24 @@ export default {
     }
   },
   methods: {
+    // On click of NEXT button, change the colour of the background.
+    // Pick from array of colours (colorArr) and once colour is picked, splice out the chosen colour
+    // so there are no repeats in the background
     changeBgColor() {
       let rng = Math.floor(Math.random() * this.colorArr.length)
       this.bgClr = this.colorArr[rng]
       this.colorArr.splice(rng, 1)
     },
+    // Emit to App.vue to display the emailPopup
     displayEmailPopup() {
       this.$emit('showPopup')
       this.$emit('responses', this.selectedResponses)
     },
+    // Change questions via qIndex
+    // Change button if the person has reached question 5
     nextQuestion() {
       this.qInt++
       this.qIndex = 'q' + this.qInt
-
-      if (this.qIndex != 'q4') {
-        this.buttonText = 'NEXT'
-      } else {
-        this.buttonText = 'SUBMIT'
-      }
 
       if (this.qIndex == 'q5') {
         this.submit = false
@@ -103,10 +87,8 @@ export default {
       }
 
     },
+    // Once response is clicked, add to object that holds the question as the key and the array of responses as values
     highlightRespo(event, id, question, qIndex) {
-      // console.log(this.qResponses[this.qIndex][id])
-
-      // document.getElementById(id).style = "background-color: #02d614; color: white;"
       if (event.target.checked == true) {
         this.selectedResponses[qIndex].push(question[id])
       } else {
@@ -115,9 +97,6 @@ export default {
       }
       console.log(this.selectedResponses)
     },
-    testCheckbox() {
-      // console.log(this.qResponses)
-    }
   },
   mounted() {
     
