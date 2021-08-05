@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/IncidentApp_/'
+  publicPath: '/IncidentApp/'
 }
