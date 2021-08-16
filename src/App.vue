@@ -1,22 +1,25 @@
 <template>
-  <emailPopup v-if="popup" :responsesFromApp="responsesFromApp"/>
-  <surveyPopup @showPopup="showPopup" v-if="start" @responses="responsesRecieved"/>
-  <startPopup v-if="open" @showApp="showApp"/>
+  <emailPopup v-if="email" :responsesFromApp="responsesFromApp"/>
+  <inputPopup v-if="input" @showPopup="showPopup"/>
+  <surveyPopup v-if="survey" @responses="responsesRecieved" @showInput="inputPopup"/>
+  <startPopup v-if="start" @beginSurvey="beginSurvey"/>
 </template>
 
 <script>
 import surveyPopup from './components/surveyPopup.vue'
 import emailPopup from './components/emailPopup.vue'
 import startPopup from './components/startPopup.vue'
+import inputPopup from './components/inputPopup.vue'
 
 export default {
   name: 'App',
   props: [],
   data() {
     return {
-      popup: false,
-      start: false,
-      open: true,
+      email: false,
+      input: false,
+      survey: false,
+      start: true,
 
       responsesFromApp: null
     }
@@ -24,22 +27,27 @@ export default {
   components: {
     surveyPopup,
     emailPopup,
-    startPopup
+    startPopup,
+    inputPopup
   },
   methods: {
     showPopup() {
-      this.popup = true
-      this.start = false
-      // console.log(responses)
+      this.email = true
+      this.input = false
     },
-    showApp() {
-      this.open = false
-      this.start = true
+    beginSurvey() {
+      console.log('begin')
+      this.start = false
+      this.survey = true
     },
     responsesRecieved(responses) {
       console.log('emit worked')
       console.log(responses)
       this.responsesFromApp = responses
+    },
+    showInput() {
+      this.input = true
+      this.survey = false
     }
   }
 }

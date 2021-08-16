@@ -24,7 +24,7 @@
 
       <div class="submitWrap">
         <button class="submitButton" @click="nextQuestion(), changeBgColor()" v-if="submit">NEXT</button>
-        <button class="submitButton" @click="displayEmailPopup()" v-if="finish">SUBMIT</button>
+        <button class="submitButton" @click="showInputPopup()" v-if="finish">Next</button>
       </div>
 
     </div>
@@ -97,6 +97,9 @@ export default {
       }
       console.log(this.selectedResponses)
     },
+    showInputPopup() {
+      this.$emit('showInputPopup')
+    }
   },
   mounted() {
     
