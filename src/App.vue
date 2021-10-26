@@ -1,7 +1,7 @@
 <template>
   <emailPopup v-if="email" :responsesFromApp="responsesFromApp"/>
   <inputPopup v-if="input" @showPopup="showPopup"/>
-  <surveyPopup v-if="survey" @responses="responsesRecieved" @showInput="inputPopup"/>
+  <surveyPopup v-if="survey" @responses="responsesRecieved" @showEmailPopup="showEmail"/>
   <startPopup v-if="start" @beginSurvey="beginSurvey"/>
 </template>
 
@@ -47,6 +47,10 @@ export default {
     },
     showInput() {
       this.input = true
+      this.survey = false
+    },
+    showEmail() {
+      this.email = true
       this.survey = false
     }
   }

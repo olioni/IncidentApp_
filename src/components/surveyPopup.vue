@@ -23,8 +23,8 @@
 
 
       <div class="submitWrap">
-        <button class="submitButton" @click="nextQuestion(), changeBgColor()" v-if="submit">NEXT</button>
-        <button class="submitButton" @click="showInputPopup()" v-if="finish">Next</button>
+        <button class="submitButton submit" @click="nextQuestion(), changeBgColor()" v-if="submit">NEXT</button>
+        <button class="submitButton" @click="showEmailPopup()" v-if="finish">Next</button>
       </div>
 
     </div>
@@ -78,8 +78,12 @@ export default {
     // Change questions via qIndex
     // Change button if the person has reached question 5
     nextQuestion() {
+      console.log('before adding: ', this.qInt)
       this.qInt++
+      console.log('after adding: ', this.qInt)
       this.qIndex = 'q' + this.qInt
+
+      console.log(this.qIndex)
 
       if (this.qIndex == 'q5') {
         this.submit = false
@@ -97,8 +101,8 @@ export default {
       }
       console.log(this.selectedResponses)
     },
-    showInputPopup() {
-      this.$emit('showInputPopup')
+    showEmailPopup() {
+      this.$emit('showEmailPopup')
     }
   },
   mounted() {
